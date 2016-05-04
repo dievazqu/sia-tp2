@@ -13,5 +13,6 @@ function net = get_learned_network_tanh(in, out, hidden_layers, min_error)
 	while(err>min_error)
 		net = learning_network_tanh(net, 0.5, in, out, 1);
 		err = err_calculus_tanh(net, in, out);
+		err
 	end
 end
