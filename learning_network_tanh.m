@@ -32,7 +32,6 @@ function net = learning_network_tanh(network, learning_rate, in, out, beta)
 	w{1} = w{1} + learning_rate*([ones(size(aux)(1), 1)*-1 g(beta*in)]'*delta{1});
 	
 	for m=2 : M
-		
 		w{m} = w{m} + learning_rate*([ones(size(in)(1), 1)*-1 g(beta*h{m-1})]'*delta{m});	
 	end
 	net = w;

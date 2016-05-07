@@ -1,7 +1,7 @@
 function net = get_learned_network_tanh(in, out, hidden_layers, min_error)
 	a=size(in)(2);
 	i=1;
-	while(i<=size(hidden_layers))
+	while(i<=size(hidden_layers)(2))
 		b=hidden_layers(i);
 		net{i}=rand(a+1, b)-0.5; %%+1 por el umbral
 		%net{i} = getInitialNetwork(a + 1,b) - 0.5;
