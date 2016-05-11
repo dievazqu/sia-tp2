@@ -1,4 +1,4 @@
-function net = get_learned_network_incremental_tanh(in, out, hidden_layers, min_error, etha, beta, seed)
+function net = get_learned_network_incremental(in, out, hidden_layers, min_error, etha, beta, seed, g, dg)
 	net = initialize([size(in)(2) hidden_layers size(out)(2)], seed);
 	err=min_error+1;
 	epochs = 0;
@@ -6,9 +6,9 @@ function net = get_learned_network_incremental_tanh(in, out, hidden_layers, min_
 		epochs++;
 		perm = randperm(size(in)(1));
 		for i = perm
-			net = learning_network_tanh(net, etha, in(i), out(i), beta);
+			net = learning_network(net, etha, in(i,:), out(i,:), beta, g, dg);
 		end
-		err = err_calculus_tanh(net, in, out);
+		err = err_calculus(net, in, out, g, beta);
 		if mod(epochs, 1000) == 0
 			printf("%f\n", err);
 			fflush(stdout);
