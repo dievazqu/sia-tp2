@@ -5,13 +5,17 @@ function net = get_learned_network_incremental(in, out, hidden_layers, min_error
 	vec_err = [];
 	while(err>min_error)
 		epochs++;
+		%%
 		perm = randperm(size(in)(1));
 		for i = perm
 			net = learning_network(net, etha, in(i,:), out(i,:), beta, g, dg);
 		end
+		%%
 		err = err_calculus(net, in, out, g, beta);
 		vec_err = [vec_err err];
 		if mod(epochs, 1000) == 0
+			printf("error en la epoca %d: %f\n", epochs, err);
+			fflush(stdout);
 			plot(vec_err, ".")
 			drawnow();
 		end
