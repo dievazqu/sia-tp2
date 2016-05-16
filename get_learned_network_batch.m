@@ -17,26 +17,34 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 		err = err_calculus(net, in, out,g, beta);
 		%%
 		if(err<prevErr)
+			%printf("menor");
+			%fflush(stdout);
 			decreaseEpochs++;
 		else
 			decreaseEpochs=0;
 		end
 		if(err>prevErr)
-			net=prevNet;
-			err=prevErr;
+			%printf("mayor");
+			%fflush(stdout);
+			%oldEtha = etha;
 			etha -= b*etha;
+			%if (etha != oldEtha)
+				net=prevNet;
+				err=prevErr;
+			%end
 		end
 		if(decreaseEpochs>=k)
 			etha+=a;
 		end
-		
 		vec_err = [vec_err err];
 		if mod(epochs, 1000) == 0
+			printf("err %f\n", err);
+			printf("prevErr %f\n", prevErr);
 			printf("error en la epoca %d: %f\n", epochs, err);
 			printf("el etha mame: %f\n", etha);
 			fflush(stdout);
-			plot(vec_err, ".")
-			drawnow();
+			%plot(vec_err, ".")
+			%drawnow();
 		end
 	end
 end
