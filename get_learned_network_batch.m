@@ -26,12 +26,12 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 		if(err>prevErr)
 			%printf("mayor");
 			%fflush(stdout);
-			%oldEtha = etha;
+			oldEtha = etha;
 			etha -= b*etha;
-			%if (etha != oldEtha)
+			if (etha != oldEtha)
 				net=prevNet;
 				err=prevErr;
-			%end
+			end
 		end
 		if(decreaseEpochs>=k)
 			etha+=a;
