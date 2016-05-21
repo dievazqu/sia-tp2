@@ -7,14 +7,7 @@ function net = get_learned_network_incremental(in, out, hidden_layers, min_error
 	prevNet = net;
 	prevErr=err;
 	size2 = size(in)(1);
-	divv = 1;
-	index = 2;
-	while(index*index<size2)
-	 	if mod(size2,index)==0
-	 		divv=index;
-		end
-	 	index++;
-	end
+	divv = get_divisor(size2);
 		
 	while(err>min_error)
 		epochs++;
@@ -25,34 +18,25 @@ function net = get_learned_network_incremental(in, out, hidden_layers, min_error
 			net = learning_network(net, etha, in(i,:), out(i,:), beta, g, dg);
 			if mod(j, divv) == 0
 				err = err_calculus(net, in, out, g, beta);
-				if(err<prevErr)
-					decreaseEpochs++;
-				else
-					decreaseEpochs=0;
-				end
-				if(err>prevErr)
-					net=prevNet;
-					err=prevErr;
-					etha -= b*etha;
-				end
-				if(decreaseEpochs>=k)
-					etha+=a;
-				end
+				params = get_adaptive_etha(etha, prevErr, err, prevNet, net, decreaseEpochs, a, b, k, alfaConst, alfa);
+				%% Levantando los valores modificados por la función
+				%% FORMA LINDA DE HACER ESTO?? %% TODO: arreglar
+				etha = params(1){1}(1)(1);
+				err = params(2){1}(1)(1);
+				net = params(3){1}(1)(1);
+				decreaseEpochs = params(4){1}(1)(1);
+				alfa = params(5){1}(1)(1);
+				%%
 				prevNet=net;
 				prevErr=err;
 			end
 			
 		end
 		%%
-		
+		err = err_calculus(net, in, out, g, beta); %% No me convence como se está calculando esto
 		vec_err = [vec_err err];
-		if mod(epochs, 10) == 0
-			err = err_calculus(net, in, out, g, beta);
-			printf("error en la epoca %d: %f\n", epochs, err);
-			fflush(stdout);
-			plot(vec_err, ".")
-			drawnow();
-		end
+		getting_feedback(vec_err, err, epochs);
 		
 	end
+	printf("error en la epoca %d: %f\n", epochs, err);
 end

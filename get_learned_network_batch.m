@@ -15,40 +15,20 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 		prevErr=err;
 		%%
 		
-		
 		net = learning_network_momentum(net, etha, in, out, beta, g, dg, alfa, prev);
 		err = err_calculus(net, in, out,g, beta);
 		%%
-		if(err<prevErr)
-			%printf("menor");
-			%fflush(stdout);
-			alfa=alfaConst;
-			decreaseEpochs++;
-		else
-			decreaseEpochs=0;
-		end
-		if(err>prevErr)
-			%printf("mayor");
-			%fflush(stdout);
-			oldEtha = etha;
-			etha -= b*etha;
-			if (etha != oldEtha)
-				net=prevNet;
-				err=prevErr;
-				alfa=0;
-			end
-		end
-		if(decreaseEpochs>=k)
-			etha+=a;
-		end
+		params = get_adaptive_etha(etha, prevErr, err, prevNet, net, decreaseEpochs, a, b, k, alfaConst, alfa);
+		%% Levantando los valores modificados por la función
+		%% FORMA LINDA DE HACER ESTO?? %% TODO: arreglar
+		etha = params(1){1}(1)(1);
+		err = params(2){1}(1)(1);
+		net = params(3){1};
+		decreaseEpochs = params(4){1}(1)(1);
+		alfa = params(5){1}(1)(1);
+		%%
 		vec_err = [vec_err err];
-		plot(vec_err, ".")
-		drawnow();
-		if mod(epochs-1, 100) == 0
-			printf("error en la epoca %d: %f\n", epochs, err);
-			%%	outa = running_network(net, in, g, beta)
-			fflush(stdout);
-		end
+		getting_feedback(vec_err, err, epochs);
 	end
 	printf("error en la epoca %d: %f\n", epochs, err);
 end
