@@ -1,6 +1,5 @@
-function ans = solve_network()
+function ans = solve_network(m)
   % Cargar archivo
-  m = load("terrain9.txt");
   % me quedo con 3 particiones del conjunto de puntos total: 
   % un grupo del conjunto total (el 50% de los puntos), 
   % otro de la superficie por encima (el 25% de los puntos)
@@ -11,37 +10,9 @@ function ans = solve_network()
   #gbp;
   #m=[gbp(:,1) gbp(:,2) gbp(:, 3)];
   % Normalizar valores por columna
-  norm = [];
-  for i = [1 : size(m)(2)]
-    col = m(:,i);
-    maxCol = max(col);
-    minCol = min(col);
-    
-    col = ((col - minCol) / (maxCol - minCol)) * 2 - 1;
-    
-    norm = [norm, col];
-  end
-  
-  mNorm = norm;
+ %% m = normalize(m, -1, 1);
   
   % Elegir valores
-  
-  #total = length(gbp(:,1));
-  
-  % Crear vector entrenamiento con el total de filas en 1
-  #result = ones(total, 1);  
-  
-  % Agregar valores falsos, tantos como elegidos
-  % Usar planos invalidos (z = 1, y > 0, x = rand; z = -1, y < 0, x = rand)
-  #add = ceil(total * 0.5);
-  %invalid = [];
-  %invalid = [invalid; rand(add, 1) * 2 - 1, rand(add, 1) * -1, ones(add, 1)];
-  %invalid = [invalid; rand(add, 1) * 2 - 1, rand(add, 1), ones(add, 1) * -1];
-  
-  %result = [result; ones(add * 2, 1) * -1];
-  %norm = [norm; invalid];
-  #result=gbp(:,4);	
-  m=mNorm;
  
   in = m(:, 1:2);
   out = m(:,3);
@@ -58,15 +29,15 @@ function ans = solve_network()
   % hidden_layers = [20 5]: < 20 epochs para terminar
   % hidden_layers = 100: > 2000 epochs para terminar
   hidden_layers = [20 5]; %2n + 1
-  min_error = 0.01;
+  min_error = 0.0003;
   etha = 0.02;
   beta = 0.2;
-  alfa = 0;
+  alfa = 0.9;
   seed = 17804;
-  a=0;
-  b=0;
-  k=0;
-  
+  a=0.001;
+  b=0.1;
+  k=10;
+  hold off;
   net = get_learned_network_batch(in, out, hidden_layers, min_error, etha, beta, alfa,a,b,k, seed, @tanh2, @dtanh2);
   #net = get_learned_network_incremental_tanh(norm, result, hidden_layers, min_error, etha, beta, seed);
   

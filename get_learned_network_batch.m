@@ -1,10 +1,11 @@
-function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha, beta, alfa, a, b, k, seed, g, dg)
+function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha, beta, alfaConst, a, b, k, seed, g, dg)
 	net = initialize([size(in)(2) hidden_layers size(out)(2)], seed);
 	err=min_error+1000000; %%Aseguramos que el error disminuye en el primer caso
 	vec_err=[];	
 	prevNet = net;
 	decreaseEpochs=0;
 	epochs=0;
+	alfa=alfaConst;
 	while(err>min_error)
 		epochs++;
 		for i=1:size(net)(2)
@@ -21,6 +22,7 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 		if(err<prevErr)
 			%printf("menor");
 			%fflush(stdout);
+			alfa=alfaConst;
 			decreaseEpochs++;
 		else
 			decreaseEpochs=0;
@@ -33,6 +35,7 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 			if (etha != oldEtha)
 				net=prevNet;
 				err=prevErr;
+				alfa=0;
 			end
 		end
 		if(decreaseEpochs>=k)
@@ -47,4 +50,5 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 			fflush(stdout);
 		end
 	end
+	printf("error en la epoca %d: %f\n", epochs, err);
 end
