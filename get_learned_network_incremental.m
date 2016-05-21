@@ -21,11 +21,11 @@ function net = get_learned_network_incremental(in, out, hidden_layers, min_error
 				params = get_adaptive_etha(etha, prevErr, err, prevNet, net, decreaseEpochs, a, b, k, alfaConst, alfa);
 				%% Levantando los valores modificados por la función
 				%% FORMA LINDA DE HACER ESTO?? %% TODO: arreglar
-				etha = params(1){1}(1)(1);
-				err = params(2){1}(1)(1);
-				net = params(3){1}(1)(1);
-				decreaseEpochs = params(4){1}(1)(1);
-				alfa = params(5){1}(1)(1);
+				etha = params{1};
+				err = params{2};
+				net = params{3};
+				decreaseEpochs = params{4};
+				alfa = params{5};
 				%%
 				prevNet=net;
 				prevErr=err;
