@@ -11,7 +11,7 @@ function net = learning_network_momentum(network, learning_rate, in, out, beta, 
 	delta{M} = dg(v{M},beta).*(out-network_out);
 	%%capas intermedias:
     for m=M : -1 : 2
-		delta{m-1} = dg(v{m-1},beta).*(delta{m}*network{m}(2:end,:)'); %%preguntar a Cristina
+		delta{m-1} = dg(v{m-1},beta).*(delta{m}*network{m}(2:end,:)');
 	end
 	
 	network{1} = network{1} + learning_rate*([ones(size(in)(1), 1)*-1 in]'*delta{1}) + alfa*deltaPrev{1};

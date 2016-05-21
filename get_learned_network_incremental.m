@@ -45,9 +45,9 @@ function net = get_learned_network_incremental(in, out, hidden_layers, min_error
 		end
 		%%
 		
-		if mod(epochs, 1000) == 0
+		vec_err = [vec_err err];
+		if mod(epochs, 10) == 0
 			err = err_calculus(net, in, out, g, beta);
-			vec_err = [vec_err err];
 			printf("error en la epoca %d: %f\n", epochs, err);
 			fflush(stdout);
 			plot(vec_err, ".")

@@ -1,3 +1,3 @@
-function out = escalon(n)
-	out = n>=0;
+function out = escalon(n, b)
+	out = (n>=0)*2-1;
 end

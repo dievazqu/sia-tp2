@@ -4,7 +4,9 @@ function net = initialize(dimensions, seed)
 	i=1;
 	while(i<size(dimensions)(2))
 		b=dimensions(i+1);
-		net{i}=rand(a+1, b)-0.5; %%+1 por el umbral
+		%%absMaxValue = 1/sqrt(a) * 5;
+		%%net{i}=rand(a+1, b)*2*absMaxValue-absMaxValue; %%+1 por el umbral // Agregado que los valores esten entre (-absMaxValue, absMaxValue)
+		net{i}=rand(a+1, b)-0.5;
 		%net{i} = getInitialNetwork(a + 1,b) - 0.5;
 		a=b;
 		i=i+1;
