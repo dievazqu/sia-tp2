@@ -29,16 +29,18 @@ function ans = solve_network(m)
   % hidden_layers = [20 5]: < 20 epochs para terminar
   % hidden_layers = 100: > 2000 epochs para terminar
   hidden_layers = [20 5]; %2n + 1
-  min_error = 0.0005;
+  min_error = 0.002180;
   etha = 0.02;
   beta = 0.2;
-  alfa = 0;
+  alfa = 0.9;
   seed = 17804;
-  a=0;
-  b=0;
-  k=0;
+  a=0.02;
+  b=0.2;
+  k=10;
+  g=@exp2;
+  dg=@dexp2;
   hold off;
-  net = get_learned_network_batch(in, out, hidden_layers, min_error, etha, beta, alfa,a,b,k, seed, @tanh2, @dtanh2);
+  net = get_learned_network_batch(in, out, hidden_layers, min_error, etha, beta, alfa,a,b,k, seed, g, dg);
   #net = get_learned_network_incremental_tanh(norm, result, hidden_layers, min_error, etha, beta, seed);
   
   % Generar valores aleatorios entre -1 y 1
