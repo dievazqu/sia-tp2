@@ -1,4 +1,5 @@
 function net = get_learned_network_incremental(in, out, hidden_layers, min_error, etha, beta, alfaConst, a, b, k, seed, g, dg)
+	
 	net = initialize([size(in)(2) hidden_layers size(out)(2)], seed);
 	err=min_error+1000000; %%Aseguramos que el error disminuye en el primer caso
 	epochs = 0;
@@ -8,7 +9,6 @@ function net = get_learned_network_incremental(in, out, hidden_layers, min_error
 	prevErr=err;
 	size2 = size(in)(1);
 	divv = get_divisor(size2);
-	alfa=alfaConst;
 	while(err>min_error)
 		epochs++;
 		for i=1:size(net)(2)

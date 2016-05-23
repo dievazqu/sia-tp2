@@ -5,7 +5,15 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 	prevNet = net;
 	decreaseEpochs=0;
 	epochs=0;
-	alfa=alfaConst;
+	disp("Ejecutando con:\n");
+	min_error
+	etha
+	beta
+	alfa=alfaConst
+	a
+	b
+	k
+	seed
 	while(err>min_error)
 		epochs++;
 		for i=1:size(net)(2)
