@@ -40,7 +40,7 @@ function net = get_learned_network_incremental(in, out, hidden_layers, min_error
 		%%
 		err = err_calculus(net, in, out, g, beta); %% No me convence como se está calculando esto
 		vec_err = [vec_err err];
-		getting_feedback(vec_err, err, epochs);
+		getting_feedback(vec_err, err, epochs, net);
 		
 	end
 	printf("error en la epoca %d: %f\n", epochs, err);

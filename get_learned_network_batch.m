@@ -28,7 +28,7 @@ function net = get_learned_network_batch(in, out, hidden_layers, min_error, etha
 		alfa = params{5};
 		%%
 		vec_err = [vec_err err];
-		getting_feedback(vec_err, err, epochs);
+		getting_feedback(vec_err, err, epochs, net);
 	end
 	printf("error en la epoca %d: %f\n", epochs, err);
 end
